@@ -2,62 +2,50 @@ generator client {
   provider = "prisma-client-js"
 }
 
-
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
-
-model Booking{
-  id              String      @id @default(uuid())
-  userId          String
-  reservationDate DateTime
-  quantity        Int
-  total           Float
-  categoryId      String
+model Order {
+  id             String @id @default(uuid())
+  userId         String @db.VarChar(36)
+  total          Float
+  paiementStatus String @db.VarChar(50)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-
-  category    Category   @relation(fields: [categoryId], references: [id])
-  user        User      @relation(fields: [userId], references: [id])
-
 }
 
-model Category{
-  id        String      @id @default(uuid())
-  name      String      @unique
+model OrderHasProduct {
+  id        String @id @default(uuid())
+  idProduct String @db.VarChar(36)
+  idOrder   String @db.VarChar(36)
+  quantity  Int
+}
+
+model Category {
+  id        String   @id @default(uuid())
+  name      String   @unique @db.VarChar(30)
+  isActive  Boolean
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-
-  booking Booking[]
 }
 
-model Rental{
-  id          String      @id @default(uuid())
-  name        String
-  description String
-  price       Float
-  adress      String
+model Product {
+  id          String   @id @default(uuid())
+  name        String   @unique @db.VarChar(100)
+  description String   @db.Text()
+  price       Int
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
-  userId String
-
-  user  User @relation(fields: [userId], references: [id])
-  
-  
 }
 
 model User {
-  id        String      @id @default(uuid())
-  email     String      @unique
-  password  String     
-  name      String
+  id        String   @id @default(uuid())
+  email     String   @unique @db.VarChar(255)
+  password  String   @db.VarChar(120)
+  name      String   @db.VarChar(75)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  booking Booking[]
-  rental Rental[]
 }
-
-

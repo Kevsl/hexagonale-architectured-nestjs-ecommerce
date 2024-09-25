@@ -1,25 +1,25 @@
-version: '3.8'
+version: '3.9'
 services:
-  hellbnbb:
+  hexaecommerce:
     image: postgres:13
     ports:
       - 5432:5432
     environment:
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: pass
-      POSTGRES_DB: database
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
     networks:
-      - HLBNB
+      - HEXAC
   test-db:
     image: postgres:13
     ports:
       - 5434:5434
     environment:
-      POSTGRES_USER: uDr4KjGcpEm6N5F3BqhxAT
-      POSTGRES_PASSWORD: 12xt6h4fWf4QL9WiP5syZ887S8Si54giDizdB8L685aBiBkBVaW87MS3bWc22ba3L9YT3
-      POSTGRES_DB: cW76664NDPkmc
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
     networks:
-      - HLBNB
+      - HEXAC
 networks:
-  HLBNB:
+  HEXAC:
     external: true
